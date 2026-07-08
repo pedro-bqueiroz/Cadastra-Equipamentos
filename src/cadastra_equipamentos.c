@@ -13,9 +13,9 @@ int login_senha(){ // Estabelece restrições de acesso a funções do programa
 
     FILE *arq2 = fopen("loginSenha.txt", "r"); // Tentativa de abrir o arquivo
     
-    if (arq2 == NULL) fprintf(stderr, "Não há arquivo de login e senha. Deseja criar um?\n");
+    if (!arq2) fprintf(stderr, "Não há arquivo de login e senha. Deseja criar um?\n");
 
-    while (arq2 == NULL) {
+    while (!arq2) {
         char confirmacao;
         scanf(" \n%c", &confirmacao);
 
@@ -24,7 +24,6 @@ int login_senha(){ // Estabelece restrições de acesso a funções do programa
             return -1;
         } else if (confirmacao == 's' || confirmacao == 'S') {
             arq2 = fopen("loginSenha.txt", "w");
-            fclose(arq2);
             fprintf(stdout, "Arquivo criado com sucesso.\n");
             break;
         } else {
@@ -190,7 +189,7 @@ void listar_usuarios(int nivelAcesso){
 
     FILE *arq2 = fopen("loginSenha.txt", "r");
 
-    if (arq2 == NULL) {
+    if (!arq2) {
         fprintf(stderr, "\nErro ao abrir o arquivo. Peça assistência a um administrador.\n");
         return;
     }
@@ -341,14 +340,15 @@ void editar_equipamento(Equipamentos vetor[], int *n, int nivelAcesso){
         case 'N':
             return;
 
-        default: fprintf(stdout, "Opção inválida.");
+        default: 
+            fprintf(stdout, "Opção inválida.");
             break;
     }
 
     fprintf(stdout, "\nQual o número do equipamento que você quer editar?\n");
     
     scanf(" %i", &numero);
-    numero -=1; // Atualiza o índice do equipamento no vetor
+    numero--; // Atualiza o índice do equipamento no vetor
 
     fprintf(stdout, "\nPara editar o equipamento, informe:\n");
 
@@ -359,8 +359,7 @@ void editar_equipamento(Equipamentos vetor[], int *n, int nivelAcesso){
 }
 
 void recursao(Equipamentos vetor[], int num, int n){ // Função recursiva usada em remover_equipamento().
-    if (num >= n) return;
-    vetor[num] = vetor[num+1];
+    num >= n ? return : vetor[num] = vetor[num+1];
     recursao(vetor, num+1, n); //  Desloca, para a esquerda, os valores a partir do index escolhido, assim, alterando a disposição dos elementos.
 }
 
@@ -386,7 +385,7 @@ void remover_equipamento(Equipamentos vetor[], int *n, int nivelAcesso){
         if (confirma == 's' || confirma == 'S') {
         numero--; //Ajusta o valor para o index à esquerda no vetor
         recursao(vetor, numero, *n);
-        *n-=1; //elemento excluído.
+        *n--; //elemento excluído.
         fprintf(stdout, "\nEquipamento %d excluído", numero + 1);
         }
     } else fprintf(stdout, "\nNão há equipamentos cadastrados.\n");
@@ -528,7 +527,7 @@ void salvar_dados_em_arquivo(Equipamentos vetor[], int *n, int nivelAcesso){
     char *nome = "Equipamentos.txt";
     FILE *arq = fopen(nome, "w");
 
-    if (arq == NULL) {
+    if (!arq) {
         fprintf(stderr, "Erro ao abrir o arquivo");
     } else {
         // Lê o arquivo, caso exista, e salva todos os equipamentos do vetor no arquivo em questão,
@@ -551,7 +550,7 @@ void carregar_dados_do_arquivo(Equipamentos vetor[], int *n, int nivelAcesso){
     char *nome = "Equipamentos.txt";
     FILE *arq = fopen(nome, "r");
 
-    if (arq == NULL) {
+    if (!arq) {
         fprintf(stderr, "Erro ao abrir o arquivo");
         return;
     } else {
@@ -581,7 +580,7 @@ void abrir_outros_formatos(Equipamentos vetor[], int *n, int nivelAcesso){
             switch (confirmacao){
                 case '1':
                     FILE *csv = fopen("Equipamentos.csv", "r");
-                    if (csv == NULL) {
+                    if (!csv) {
                         fprintf(stderr, "Erro ao abrir o arquivo. Verifique se o arquivo existe e tente novamente.\n");
                         return;
                     }
@@ -599,7 +598,7 @@ void abrir_outros_formatos(Equipamentos vetor[], int *n, int nivelAcesso){
                 
                 case '2':
                     FILE *json = fopen("Equipamentos.json", "r");
-                    if (json == NULL) {
+                    if (!json) {
                         fprintf(stderr, "Erro ao abrir o arquivo. Verifique se o arquivo existe e tente novamente.\n");
                         return;
                     }
@@ -618,7 +617,7 @@ void abrir_outros_formatos(Equipamentos vetor[], int *n, int nivelAcesso){
 
                 case '3':
                     FILE *xml = fopen("Equipamentos.xml", "r");
-                    if (xml == NULL) {
+                    if (!xml) {
                         fprintf(stderr, "Erro ao abrir o arquivo. Verifique se o arquivo existe e tente novamente.\n");
                         return;
                     }
@@ -756,7 +755,8 @@ void verificar_alteracoes(Equipamentos vetor[], int *n, int nivelAcesso){
     return;
 }
 
-/*void verificarSegurançaSenha(char senha[])
+/*
+void verificarSegurançaSenha(char senha[])
     alguma parte que usa hash com salt
     return;
 */
