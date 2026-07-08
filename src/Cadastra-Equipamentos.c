@@ -24,7 +24,7 @@ int main(int argc, char *argv[]){
     fprintf(stdout, "\nBem vindo ao Cadastra-Equipamentos.\nCertifique-se de que fechou o programa quando for embora!!!\n");
 
     FILE *arq = fopen("Equipamentos.txt", "r");
-    while (arq == NULL) {
+    while (!arq) {
         fprintf(stderr, "ATENÇÃO! Não há arquivo .txt de equipamentos a ser aberto. Deseja criar um? S/N ");
         scanf("\n%c", &confirmacao);
         if (confirmacao == 'n' || confirmacao == 'N') {
