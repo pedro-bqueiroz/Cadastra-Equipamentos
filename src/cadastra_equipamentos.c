@@ -359,7 +359,8 @@ void editar_equipamento(Equipamentos vetor[], int *n, int nivelAcesso){
 }
 
 void recursao(Equipamentos vetor[], int num, int n){ // Função recursiva usada em remover_equipamento().
-    num >= n ? return : vetor[num] = vetor[num+1];
+    if (num >= n) return;
+    vetor[num] = vetor[num+1];
     recursao(vetor, num+1, n); //  Desloca, para a esquerda, os valores a partir do index escolhido, assim, alterando a disposição dos elementos.
 }
 
