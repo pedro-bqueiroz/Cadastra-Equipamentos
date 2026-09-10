@@ -167,7 +167,7 @@ void configurar_login_senha(int nivelAcesso){ // Oferece opções internas de co
             
             for (i = 0; i < MAX_USUARIOS; i++) {
                 if (strcmp(login, usuarios[i].login) == 0) {
-
+                    //Rever essa parte depois
                     fprintf(stdout, "Usuário removido com sucesso.\n");
                     return;
                 }
