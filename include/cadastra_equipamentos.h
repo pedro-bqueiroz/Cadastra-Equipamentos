@@ -1,4 +1,4 @@
-#ifndef MAX_STRING
+#pragma once
 #define MAX_STRING 31
 #define MAX_EQUIPAMENTOS 256
 #define MAX_USUARIOS 32
@@ -42,5 +42,3 @@ void carregar_dados_do_arquivo(Equipamentos vetor[], int *n, int nivelAcesso);
 void abrir_outros_formatos(Equipamentos vetor[], int *n, int nivelAcesso);
 void verificar_alteracoes(Equipamentos vetor[], int *n, int nivelAcesso);
 void listar_usuarios(int nivelAcesso);
-
-#endif
