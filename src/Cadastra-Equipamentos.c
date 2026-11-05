@@ -9,8 +9,8 @@ int main(int argc, char *argv[]){
     setlocale(LC_NUMERIC, "C"); // Evita a conversão de pontos decimais para vírgulas, facilitando a impressão de dados em arquivos CSV.
     system("cls || clear"); // Útil para limpar a tela em sistemas Windows e Unix, respectivamente.
 
-    int n=0; // Variável que vai fazer a contagem de quantos equipamentos estão cadastrados, importante para se usar nos loops.
-    int confirmacao;
+    int n = 0; // Variável que vai fazer a contagem de quantos equipamentos estão cadastrados, importante para se usar nos loops.
+    char confirmacao;
     Equipamentos vetor[MAX_EQUIPAMENTOS];
 
     int nivelAcesso = login_senha();
@@ -21,19 +21,25 @@ int main(int argc, char *argv[]){
     fprintf(stdout, "\nBem vindo ao Cadastra-Equipamentos.\nCertifique-se de que fechou o programa quando for embora!!!\n");
 
     FILE *arq = fopen("Equipamentos.txt", "r");
-    while (!arq) {
-        fprintf(stderr, "ATENÇÃO! Não há arquivo .txt de equipamentos a ser aberto. Deseja criar um? S/N ");
-        scanf("\n%c", &confirmacao);
-        if (confirmacao == 'n' || confirmacao == 'N') {
-        fprintf(stdout, "Saindo do Cadastra-Equipamentos...");
-        return 0;
-        } else if (confirmacao == 's' || confirmacao == 'S') {
-        arq = fopen("Equipamentos.txt", "w");
+    if (arq) {
         fclose(arq);
-        } else {
-        fprintf(stderr, "Opção inválida.\n");
+    } else {
+        while (!arq) {
+            fprintf(stderr, "ATENÇÃO! Não há arquivo .txt de equipamentos a ser aberto. Deseja criar um? S/N ");
+            scanf(" %c", &confirmacao);
+            if (confirmacao == 'n' || confirmacao == 'N') {
+                fprintf(stdout, "Saindo do Cadastra-Equipamentos...");
+                return 0;
+            } else if (confirmacao == 's' || confirmacao == 'S') {
+                arq = fopen("Equipamentos.txt", "w");
+                if (arq) fclose(arq);
+            } else {
+                fprintf(stderr, "Opção inválida.\n");
+            }
         }
     }
+
+    n = contar_equipamentos(vetor);
     
     fprintf(stdout, "\nNível de acesso: %d\n", nivelAcesso);
 
@@ -53,6 +59,7 @@ int main(int argc, char *argv[]){
         fprintf(stdout, "0) Listar usuários\n");
         fprintf(stdout, "Q) Verificar alterações\n");
         fprintf(stdout, "W) Importar ou exportar arquivos em outros formatos\n");
+        fprintf(stdout, "H) Limpar a tela\n");
         fprintf(stdout, "C) Sair do programa\n\n");
 
         scanf(" %c", &input);
@@ -110,6 +117,10 @@ int main(int argc, char *argv[]){
             case 'c':
             case 'C':
                 fprintf(stdout, "Saindo do programa...");
+                break;
+            case 'h':
+            case 'H':
+                system("cls || clear");
                 break;
 
             default:
