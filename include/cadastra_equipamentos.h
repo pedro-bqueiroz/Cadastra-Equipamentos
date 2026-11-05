@@ -41,4 +41,4 @@ void salvar_dados_em_arquivo(Equipamentos vetor[], int *n, int nivelAcesso);
 void carregar_dados_do_arquivo(Equipamentos vetor[], int *n, int nivelAcesso);
 void abrir_outros_formatos(Equipamentos vetor[], int *n, int nivelAcesso);
 void verificar_alteracoes(Equipamentos vetor[], int *n, int nivelAcesso);
-void listar_usuarios(int nivelAcesso);
+int listar_usuarios(int nivelAcesso);
